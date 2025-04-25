@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+2.43.0 (2025-04-25)
+-------------------
+- The following resources were added or updated: <code
+  class="code">AWS::Batch::JobDefinition FirelensConfiguration</code>
+  and <code class="code">AWS::Batch::JobDefinition
+  TaskContainerProperties</code>. [Github Actions]
+
+
 2.42.0 (2025-04-18)
 -------------------
 - The following resources were added or updated: <code
