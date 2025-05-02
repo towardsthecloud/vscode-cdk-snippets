@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.44.0 (2025-05-02)
+-------------------
+- The following resource was updated: AWS::Kinesis::StreamConsumer.
+  [Github Actions]
+
+
 2.43.0 (2025-04-25)
 -------------------
 - The following resources were added or updated: <code
