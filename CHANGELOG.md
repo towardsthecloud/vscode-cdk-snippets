@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.45.0 (2025-05-09)
+-------------------
+- The following resource was added: <code
+  class="code">AWS::DataZone::DomainUnit</code>. [Github Actions]
+
+
 2.44.0 (2025-05-02)
 -------------------
 - The following resource was updated: AWS::Kinesis::StreamConsumer.
