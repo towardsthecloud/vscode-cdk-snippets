@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.46.0 (2025-05-16)
+-------------------
+- The following resource was updated: AWS::PCS::Cluster. [Github
+  Actions]
+- Chore: update readme. [Danny Steenman]
+
+
 2.45.0 (2025-05-09)
 -------------------
 - The following resource was added: <code
