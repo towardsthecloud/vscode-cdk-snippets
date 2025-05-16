@@ -3,7 +3,7 @@
   "displayName": "AWS CDK Snippets",
   "description": "Adds L1 Construct snippets from AWS CDK in VS Code.",
   "author": "Danny Steenman",
-  "version": "2.45.0",
+  "version": "2.46.0",
   "publisher": "dannysteenman",
   "icon": "images/cdk-snippets-extension-icon.png",
   "homepage": "https://towardsthecloud.com",
