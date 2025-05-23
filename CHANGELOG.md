@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.47.0 (2025-05-23)
+-------------------
+- The following resource was updated: AWS::Synthetics::Canary. [Github
+  Actions]
+- Chore: update readme. [Danny Steenman]
+
+
 2.46.0 (2025-05-16)
 -------------------
 - The following resource was updated: AWS::PCS::Cluster. [Github
