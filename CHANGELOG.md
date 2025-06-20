@@ -2,6 +2,20 @@ Changelog
 =========
 
 
+2.48.0 (2025-06-20)
+-------------------
+
+Fix
+~~~
+- Enhance rss feed handling in feed.py and update workflow to use
+  summary-only flag for changelog generation. [Danny Steenman]
+
+Other
+~~~~~
+- The following resources were added: AWS::MPA::ApprovalTeam and
+  AWS::MPA::IdentitySource. [Github Actions]
+
+
 2.47.0 (2025-05-23)
 -------------------
 - The following resource was updated: AWS::Synthetics::Canary. [Github
