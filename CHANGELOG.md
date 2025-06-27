@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.49.0 (2025-06-27)
+-------------------
+- The following property was added: AWS::Route53Resolver::ResolverRule
+  DelegationRecord. [Github Actions]
+
+
 2.48.0 (2025-06-20)
 -------------------
 
