@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.50.0 (2025-07-04)
+-------------------
+- The following resource was updated: AWS::Cassandra::Table. [Github
+  Actions]
+
+
 2.49.0 (2025-06-27)
 -------------------
 - The following property was added: AWS::Route53Resolver::ResolverRule
