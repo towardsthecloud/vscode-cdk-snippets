@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+2.51.0 (2025-07-11)
+-------------------
+- The following resource was updated: AWS::Cassandra::Table. [Github
+  Actions]
+- Update README.md. [Danny Steenman]
+- Update README.md. [Danny Steenman]
+
+
 2.50.0 (2025-07-04)
 -------------------
 - The following resource was updated: AWS::Cassandra::Table. [Github
