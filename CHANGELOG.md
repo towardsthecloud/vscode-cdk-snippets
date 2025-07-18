@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+2.52.0 (2025-07-18)
+-------------------
+- The following resources were updated:
+  AWS::IoTManagedIntegrations::CredentialLocker,
+  AWS::IoTManagedIntegrations::ManagedThing, and
+  AWS::IoTManagedIntegrations::ProvisioningProfile. [Github Actions]
+
+
 2.51.0 (2025-07-11)
 -------------------
 - The following resource was updated: AWS::Cassandra::Table. [Github
