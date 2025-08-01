@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.54.0 (2025-08-01)
+-------------------
+- The following resource was updated:
+  AWS::EntityResolution::MatchingWorkflow. [Github Actions]
+
+
 2.53.0 (2025-07-25)
 -------------------
 - The following resources were updated:
