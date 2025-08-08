@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.55.0 (2025-08-08)
+-------------------
+- The following resource was updated: AWS::PCS::Cluster. [Github
+  Actions]
+
+
 2.54.0 (2025-08-01)
 -------------------
 - The following resource was updated:
