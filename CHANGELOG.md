@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.57.0 (2025-08-22)
+-------------------
+- The following resource was updated:
+  AWS::KinesisAnalyticsV2::Application. [Github Actions]
+
+
 2.56.0 (2025-08-15)
 -------------------
 - The following resource was updated: AWS::PCS::Cluster. [Github
