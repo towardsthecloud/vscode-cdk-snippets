@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.60.0 (2025-09-12)
+-------------------
+- The following resource was updated: AWS::CloudFront::Distribution.
+  [Github Actions]
+
+
 2.59.0 (2025-09-05)
 -------------------
 - The following resource was updated: AWS::CloudFront::Distribution.
