@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.61.0 (2025-09-19)
+-------------------
+- The following resource was updated: AWS::EVS::Environment. [Github
+  Actions]
+- Update README.md. [Danny Steenman]
+
+
 2.60.0 (2025-09-12)
 -------------------
 - The following resource was updated: AWS::CloudFront::Distribution.
