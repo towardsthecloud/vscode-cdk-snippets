@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+2.62.0 (2025-09-26)
+-------------------
+- The following resources were added:
+  AWS::BedrockAgentCore::BrowserCustom,
+  AWS::BedrockAgentCore::CodeInterpreterCustom,
+  AWS::BedrockAgentCore::Runtime, and
+  AWS::BedrockAgentCore::RuntimeEndpoint. [Github Actions]
+
+
 2.61.0 (2025-09-19)
 -------------------
 - The following resource was updated: AWS::EVS::Environment. [Github
