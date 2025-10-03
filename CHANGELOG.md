@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.63.0 (2025-10-03)
+-------------------
+- The following resource was updated: AWS::MWAA::Environment. [Github
+  Actions]
+
+
 2.62.0 (2025-09-26)
 -------------------
 - The following resources were added:
