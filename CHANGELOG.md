@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.65.0 (2025-10-17)
+-------------------
+- The following resource was added:
+  AWS::SSMQuickSetup::LifecycleAutomation. [Github Actions]
+
+
 2.64.0 (2025-10-10)
 -------------------
 - The following resource was updated: AWS::MWAA::Environment. [Github
