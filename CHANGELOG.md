@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.66.0 (2025-10-24)
+-------------------
+- The following resource was updated: AWS::Synthetics::Canary. [Github
+  Actions]
+
+
 2.65.0 (2025-10-17)
 -------------------
 - The following resource was added:
