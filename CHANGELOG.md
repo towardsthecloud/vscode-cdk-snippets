@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.67.0 (2025-10-31)
+-------------------
+- The following resources were added: AWS::RTBFabric::Link,
+  AWS::RTBFabric::RequesterGateway and AWS::RTBFabric::ResponderGateway.
+  [Github Actions]
+
+
 2.66.0 (2025-10-24)
 -------------------
 - The following resource was updated: AWS::Synthetics::Canary. [Github
