@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.69.0 (2025-11-14)
+-------------------
+- The following resource was added: AWS::CloudFront::VpcOrigin. [Github
+  Actions]
+
+
 2.68.0 (2025-11-07)
 -------------------
 - The following resource was added: AWS::CloudFront::VpcOrigin. [Github
