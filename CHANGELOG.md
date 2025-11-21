@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.70.0 (2025-11-21)
+-------------------
+- The following resource was added: AWS::Glue::Integration. [Github
+  Actions]
+
+
 2.69.0 (2025-11-14)
 -------------------
 - The following resource was added: AWS::CloudFront::VpcOrigin. [Github
