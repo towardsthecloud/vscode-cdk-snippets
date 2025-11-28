@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.71.0 (2025-11-28)
+-------------------
+- The following resource was updated: AWS::PCS::Cluster. [Github
+  Actions]
+- Update README.md. [Danny Steenman]
+
+
 2.70.0 (2025-11-21)
 -------------------
 - The following resource was added: AWS::Glue::Integration. [Github
