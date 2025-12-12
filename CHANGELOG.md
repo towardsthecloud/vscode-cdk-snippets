@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.73.0 (2025-12-12)
+-------------------
+- The following resources were added: AWS::DevOpsAgent::AgentSpace and
+  AWS::DevOpsAgent::Association. [Github Actions]
+
+
 2.72.0 (2025-12-05)
 -------------------
 - The following resource was updated: AWS::PCS::Cluster. [Github
