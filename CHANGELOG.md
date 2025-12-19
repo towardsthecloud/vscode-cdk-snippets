@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.74.0 (2025-12-19)
+-------------------
+- The following properties were added to
+  AWS::Route53Resolver::ResolverEndpoint. [Github Actions]
+
+
 2.73.0 (2025-12-12)
 -------------------
 - The following resources were added: AWS::DevOpsAgent::AgentSpace and
