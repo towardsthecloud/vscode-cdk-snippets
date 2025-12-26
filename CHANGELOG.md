@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.75.0 (2025-12-26)
+-------------------
+- The following resources were added: AWS::Cases::Domain,
+  AWS::Cases::Field, AWS::Cases::Layout, AWS::Cases::CaseRule, and
+  AWS::Cases::Template. [Github Actions]
+
+
 2.74.0 (2025-12-19)
 -------------------
 - The following properties were added to
