@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.77.0 (2026-01-09)
+-------------------
+- The following resources were added: AWS::Cases::Domain,
+  AWS::Cases::Field, AWS::Cases::Layout, AWS::Cases::CaseRule, and
+  AWS::Cases::Template. [Github Actions]
+
+
 2.76.0 (2026-01-02)
 -------------------
 - The following resources were added: AWS::Cases::Domain,
