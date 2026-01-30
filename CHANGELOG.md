@@ -2,6 +2,17 @@ Changelog
 =========
 
 
+2.80.0 (2026-01-30)
+-------------------
+- The following resource was added:
+  AWS::OpenSearchServerless::CollectionGroup. The following properties
+  were added: AWS::OpenSearchServerless::Collection.CollectionGroupName,
+  AWS::OpenSearchServerless::Collection.FipsEndpoints,
+  AWS::OpenSearchServerless::Collection.EncryptionConfig,
+  AWS::OpenSearchServerless::SecurityConfig.IamFederationOptions.
+  [Github Actions]
+
+
 2.79.0 (2026-01-23)
 -------------------
 - The following resources were added: AWS::Cases::Domain,
