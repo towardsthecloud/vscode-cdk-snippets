@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.81.0 (2026-02-06)
+-------------------
+- The following resource was updated: AWS::WorkSpacesWeb::Portal.
+  [Github Actions]
+
+
 2.80.0 (2026-01-30)
 -------------------
 - The following resource was added:
