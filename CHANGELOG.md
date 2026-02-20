@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.83.0 (2026-02-20)
+-------------------
+- Updates were added to AWS::Connect::HoursOfOperation to support
+  recurring overrides. [Github Actions]
+
+
 2.82.0 (2026-02-13)
 -------------------
 - The following resource was updated: AWS::WorkSpacesWeb::Portal.
