@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.84.0 (2026-02-27)
+-------------------
+- The following resource was added:
+  AWS::ComputeOptimizer::AutomationRule. [Github Actions]
+
+
 2.83.0 (2026-02-20)
 -------------------
 - Updates were added to AWS::Connect::HoursOfOperation to support
