@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.85.0 (2026-03-06)
+-------------------
+- The following resources were added:
+  AWS::BedrockAgentCore::PolicyEngine and AWS::BedrockAgentCore::Policy.
+  [Github Actions]
+
+
 2.84.0 (2026-02-27)
 -------------------
 - The following resource was added:
