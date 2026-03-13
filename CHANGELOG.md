@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+2.86.0 (2026-03-13)
+-------------------
+- The following resources were added:
+  AWS::CleanRoomsML::ConfiguredModelAlgorithm and
+  AWS::CleanRoomsML::ConfiguredModelAlgorithmAssociation. [Github
+  Actions]
+
+
 2.85.0 (2026-03-06)
 -------------------
 - The following resources were added:
