@@ -2,6 +2,11 @@ Changelog
 =========
 
 
+2.87.0 (2026-03-20)
+-------------------
+- The following resource was added: AWS::Glue::Catalog. [Github Actions]
+
+
 2.86.0 (2026-03-13)
 -------------------
 - The following resources were added:
