@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.88.0 (2026-03-27)
+-------------------
+- The following resource was added: AWS::UXC::AccountCustomization.
+  [Github Actions]
+
+
 2.87.0 (2026-03-20)
 -------------------
 - The following resource was added: AWS::Glue::Catalog. [Github Actions]
