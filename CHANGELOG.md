@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.90.0 (2026-04-10)
+-------------------
+- The following resources were added: AWS::S3Files::FileSystem,
+  AWS::S3Files::FileSystemPolicy, AWS::S3Files::MountTarget, and
+  AWS::S3Files::AccessPoint. [Github Actions]
+
+
 2.89.0 (2026-04-03)
 -------------------
 - The following resource was added: AWS::UXC::AccountCustomization.
