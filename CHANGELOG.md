@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.91.0 (2026-04-17)
+-------------------
+- The following resource was updated: AWS::CloudWatch::Alarm. [Github
+  Actions]
+
+
 2.90.0 (2026-04-10)
 -------------------
 - The following resources were added: AWS::S3Files::FileSystem,
