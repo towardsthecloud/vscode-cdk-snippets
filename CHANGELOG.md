@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.92.0 (2026-04-24)
+-------------------
+- The following resource was updated: AWS::CloudWatch::Alarm. [Github
+  Actions]
+
+
 2.91.0 (2026-04-17)
 -------------------
 - The following resource was updated: AWS::CloudWatch::Alarm. [Github
