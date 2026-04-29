@@ -29,23 +29,6 @@
     "typescript",
     "python"
   ],
-  "badges": [
-    {
-      "url": "https://img.shields.io/visual-studio-marketplace/v/dannysteenman.cdk-snippets",
-      "href": "https://marketplace.visualstudio.com/items?itemName=dannysteenman.cdk-snippets",
-      "description": "Version"
-    },
-    {
-      "url": "https://img.shields.io/visual-studio-marketplace/i/dannysteenman.cdk-snippets",
-      "href": "https://marketplace.visualstudio.com/items?itemName=dannysteenman.cdk-snippets",
-      "description": "Installs"
-    },
-    {
-      "url": "https://img.shields.io/visual-studio-marketplace/stars/dannysteenman.cdk-snippets",
-      "href": "https://marketplace.visualstudio.com/items?itemName=dannysteenman.cdk-snippets",
-      "description": "Rating"
-    }
-  ],
   "contributes": {
     "languages": [
       {
