@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+2.93.0 (2026-05-01)
+-------------------
+- The following resources were updated:
+  AWS::NetworkFirewall::FirewallPolicy and
+  AWS::NetworkFirewall::RuleGroup. [Github Actions]
+- Chore: remove badge information from README and package.json. [Danny
+  Steenman]
+
+
 2.92.0 (2026-04-24)
 -------------------
 - The following resource was updated: AWS::CloudWatch::Alarm. [Github
