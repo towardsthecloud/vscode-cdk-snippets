@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.94.0 (2026-05-08)
+-------------------
+- The following resources were updated:
+  AWS::NetworkFirewall::FirewallPolicy and
+  AWS::NetworkFirewall::RuleGroup. [Github Actions]
+
+
 2.93.0 (2026-05-01)
 -------------------
 - The following resources were updated:
