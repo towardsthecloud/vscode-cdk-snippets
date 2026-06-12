@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.98.0 (2026-06-12)
+-------------------
+- Added descriptions for the AgentPermissions property type and its
+  Principals property of the AWS::CodeGuruProfiler::ProfilingGroup
+  resource. [Github Actions]
+
+
 2.97.0 (2026-05-29)
 -------------------
 - The following resources were updated:
