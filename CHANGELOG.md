@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.99.0 (2026-06-19)
+-------------------
+- The following resource was updated: AWS::Neptune::DBCluster. [Github
+  Actions]
+
+
 2.98.0 (2026-06-12)
 -------------------
 - Added descriptions for the AgentPermissions property type and its
