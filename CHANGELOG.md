@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.100.0 (2026-06-26)
+--------------------
+- The following resource's properties were updated:
+  AWS::MWAA::Environment. [Github Actions]
+
+
 2.99.0 (2026-06-19)
 -------------------
 - The following resource was updated: AWS::Neptune::DBCluster. [Github
