@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.102.0 (2026-07-10)
+--------------------
+- The following resource was updated: AWS::PCS::Cluster. [Github
+  Actions]
+
+
 2.101.0 (2026-07-03)
 --------------------
 - The following resource was updated: AWS::PCS::Cluster. [Github
