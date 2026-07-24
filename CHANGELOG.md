@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+2.104.0 (2026-07-24)
+--------------------
+- The following resources were added: AWS::ResilienceHubV2::Service,
+  AWS::ResilienceHubV2::Policy, AWS::ResilienceHubV2::System,
+  AWS::ResilienceHubV2::ServiceFunction, and
+  AWS::ResilienceHubV2::UserJourney. [Github Actions]
+
+
 2.103.0 (2026-07-17)
 --------------------
 - The following resources were added: AWS::ResilienceHubV2::Service,
