@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.105.0 (2026-07-31)
+--------------------
+- The following resource was updated: AWS::PCS::ComputeNodeGroup.
+  [Github Actions]
+
+
 2.104.0 (2026-07-24)
 --------------------
 - The following resources were added: AWS::ResilienceHubV2::Service,
