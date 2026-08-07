@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+2.106.0 (2026-08-07)
+--------------------
+- The following resource was updated: AWS::PCS::ComputeNodeGroup.
+  [Github Actions]
+- Docs: update readme tip. [Danny Steenman]
+
+
 2.105.0 (2026-07-31)
 --------------------
 - The following resource was updated: AWS::PCS::ComputeNodeGroup.
