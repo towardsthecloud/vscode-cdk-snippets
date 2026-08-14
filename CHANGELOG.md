@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.107.0 (2026-08-14)
+--------------------
+- The following resources were added: AWS::AccountAccess::Application
+  and AWS::AccountAccess::Entitlement. [Github Actions]
+
+
 2.106.0 (2026-08-07)
 --------------------
 - The following resource was updated: AWS::PCS::ComputeNodeGroup.
