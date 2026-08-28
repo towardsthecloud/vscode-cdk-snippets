@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.109.0 (2026-08-28)
+--------------------
+- The following resource was added: AWS::Lambda::ResourcePolicy. [Github
+  Actions]
+
+
 2.108.0 (2026-08-21)
 --------------------
 - The following resources were added: AWS::AgentRegistry::Registry and
