@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+2.110.0 (2026-09-04)
+--------------------
+- The following resource was added:
+  AWS::PricingPlanManager::Subscription. [Github Actions]
+
+
 2.109.0 (2026-08-28)
 --------------------
 - The following resource was added: AWS::Lambda::ResourcePolicy. [Github
