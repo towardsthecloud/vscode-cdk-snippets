@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+2.113.0 (2026-09-25)
+--------------------
+- The AWS::EventsV2 resources are now available in AWS CloudFormation.
+  You can use these resources to define Amazon EventBridge event buses,
+  event sources, subscribers, and event bus resource policies in your
+  templates. [Github Actions]
+
+
 2.112.0 (2026-09-18)
 --------------------
 - The following resource was added:
