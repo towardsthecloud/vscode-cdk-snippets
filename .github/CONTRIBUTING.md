@@ -35,7 +35,7 @@ If the maintainers notice anything that we'd like changed, we'll ask you to edit
 
 ## Generate and validate snippets
 
-Use Node 24 via `fnm` and Python 3.12 or newer. Create the Python environment in the repository root:
+Use Node 24 via `fnm` and the latest stable Python 3. CI selects the newest stable runtime available to `setup-python` with `3.x` and `check-latest: true`. Create the Python environment in the repository root:
 
 ```sh
 fnm use
