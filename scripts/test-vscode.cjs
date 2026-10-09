@@ -1,9 +1,11 @@
 const path = require('node:path');
 const fs = require('node:fs');
+const os = require('node:os');
 const { runTests } = require('@vscode/test-electron');
 const root = path.resolve(__dirname, '..');
 // Keep macOS IPC socket paths below its 103-character limit.
-const directory = fs.mkdtempSync('/tmp/cdk-vscode-');
+const temporaryRoot = process.platform === 'darwin' ? '/tmp' : os.tmpdir();
+const directory = fs.mkdtempSync(path.join(temporaryRoot, 'cdk-vscode-'));
 runTests({
   version: '1.141.0',
   vscodeExecutablePath: process.env.VSCODE_EXECUTABLE_PATH,

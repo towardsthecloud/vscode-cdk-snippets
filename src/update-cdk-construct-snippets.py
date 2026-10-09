@@ -73,10 +73,11 @@ class Renderer:
             collection = type_info["collection"]
             if depth >= self.max_depth:
                 return self.placeholder("[]" if collection["kind"] == "array" else "{}")
+            key = self.placeholder("key") if collection["kind"] == "map" else ""
             value = self.value(collection["elementtype"], depth + 1, ancestors)
             if collection["kind"] == "array":
                 return "[" + value + "]"
-            return '{"' + self.placeholder("key") + '": ' + value + "}"
+            return '{"' + key + '": ' + value + "}"
         if "fqn" in type_info:
             fqn = type_info["fqn"]
             if allow_token and (

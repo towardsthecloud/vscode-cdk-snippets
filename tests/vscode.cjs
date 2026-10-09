@@ -8,7 +8,7 @@ exports.run = async function () {
   const results = [];
   for (const language of ['typescript', 'python']) {
     const snippets = loadSnippets(language);
-    for (const resource of ['AWS::IAM::Role', 'AWS::S3::Bucket (full)']) {
+    for (const resource of ['AWS::IAM::Role', 'AWS::S3::Bucket (full)', 'AWS::ARCRegionSwitch::Plan (full)']) {
       const snippet = snippets[resource];
       const document = await vscode.workspace.openTextDocument({ language, content: snippet.prefix });
       const editor = await vscode.window.showTextDocument(document);
@@ -22,9 +22,14 @@ exports.run = async function () {
       await editor.insertSnippet(item.insertText, new vscode.Position(0, 0));
       assert.equal(document.getText(), expandSnippet(snippet.body), `${language}: VS Code expansion differs`);
       assert.equal(document.getText(editor.selection), 'id');
-      await vscode.commands.executeCommand('jumpToNextSnippetPlaceholder');
-      if (resource === 'AWS::IAM::Role') {
-        assert.equal(document.getText(editor.selection), '{}', 'JSON placeholder must select both braces');
+      const stops = [...item.insertText.value.matchAll(/\$\{(\d+):/g)].length;
+      for (let stop = 1; stop < stops; stop++) {
+        const previous = editor.selection.start;
+        await vscode.commands.executeCommand('jumpToNextSnippetPlaceholder');
+        assert.ok(editor.selection.start.isAfter(previous), `${language}: ${snippet.prefix} Tab moved backward`);
+        if (resource === 'AWS::IAM::Role' && stop === 1) {
+          assert.equal(document.getText(editor.selection), '{}', 'JSON placeholder must select both braces');
+        }
       }
       await vscode.commands.executeCommand('leaveSnippet');
       await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
