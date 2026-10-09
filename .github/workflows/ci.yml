@@ -25,4 +25,5 @@ jobs:
           path: |
             artifacts/*validation.json
             artifacts/vscode-smoke.json
+            artifacts/typescript-diagnostics.log
             artifacts/python-cdk.out/validation-report.json
