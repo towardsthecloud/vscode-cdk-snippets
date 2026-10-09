@@ -1,9 +1,8 @@
-.gitchangelog.rc
-.github/**
-.gitignore
-.pytest_cache/**
-.venv/**
-.vscode-test/**
-.vscode/**
-**/*.ts
-src/**
+**
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE
+!images/cdk-snippets-extension-icon.png
+!snippets/cdk-l1-constructs-python.json
+!snippets/cdk-l1-constructs-typescript.json

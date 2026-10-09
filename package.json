@@ -29,29 +29,28 @@
     "typescript",
     "python"
   ],
+  "scripts": {
+    "generate": "python3 src/update-cdk-construct-snippets.py",
+    "test:generator": "python3 -m unittest discover -s tests -v",
+    "generate:check": "python3 src/update-cdk-construct-snippets.py --check",
+    "test:release": "node --test tests/release*.test.cjs",
+    "test:snippets": "node scripts/validate-snippets.cjs && python3 scripts/validate-python.py",
+    "test": "npm run test:generator && npm run test:release && npm run generate:check && npm run test:snippets",
+    "test:vscode": "node scripts/test-vscode.cjs",
+    "package": "node -e \"require('node:fs').mkdirSync('artifacts', {recursive:true})\" && vsce package --no-dependencies --out artifacts/cdk-snippets.vsix",
+    "test:package": "node scripts/validate-package.cjs",
+    "release:prepare": "node scripts/prepare-release.cjs"
+  },
+  "devDependencies": {
+    "@vscode/test-electron": "3.1.0",
+    "@vscode/vsce": "4.0.0",
+    "aws-cdk-lib": "2.273.0",
+    "constructs": "10.8.1",
+    "jszip": "3.10.2",
+    "ovsx": "1.2.0",
+    "typescript": "5.9.3"
+  },
   "contributes": {
-    "languages": [
-      {
-        "id": "python",
-        "aliases": [
-          "Python",
-          "py"
-        ],
-        "extensions": [
-          ".py"
-        ]
-      },
-      {
-        "id": "typescript",
-        "aliases": [
-          "TypeScript",
-          "ts"
-        ],
-        "extensions": [
-          ".ts"
-        ]
-      }
-    ],
     "snippets": [
       {
         "language": "python",
@@ -62,5 +61,10 @@
         "path": "./snippets/cdk-l1-constructs-typescript.json"
       }
     ]
+  },
+  "overrides": {
+    "ovsx": {
+      "@vscode/vsce": "$@vscode/vsce"
+    }
   }
 }
