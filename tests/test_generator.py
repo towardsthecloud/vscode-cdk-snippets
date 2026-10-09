@@ -1,3 +1,4 @@
+import ast
 import importlib.metadata
 import json
 import pathlib
@@ -265,6 +266,93 @@ class GeneratorTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         body = "\n".join(self.snippets("python")["AWS::Batch::JobDefinition"]["body"])
         self.assertIn("size_in_gib=", body)
+
+    def test_python_date_default_executes_on_the_sdk_minimum_python(self):
+        data = assembly(
+            [
+                {
+                    "name": "lifecycleConfiguration",
+                    "optional": True,
+                    "type": {
+                        "fqn": "aws-cdk-lib.aws_s3.CfnBucket.LifecycleConfigurationProperty"
+                    },
+                }
+            ],
+            namespace="aws_s3",
+            name="CfnBucket",
+            resource="AWS::S3::Bucket",
+        )
+        lifecycle = "aws-cdk-lib.aws_s3.CfnBucket.LifecycleConfigurationProperty"
+        rule = "aws-cdk-lib.aws_s3.CfnBucket.RuleProperty"
+        data["types"][lifecycle] = {
+            "fqn": lifecycle,
+            "datatype": True,
+            "properties": [
+                {
+                    "name": "rules",
+                    "type": {
+                        "collection": {"kind": "array", "elementtype": {"fqn": rule}}
+                    },
+                }
+            ],
+        }
+        data["types"][rule] = {
+            "fqn": rule,
+            "datatype": True,
+            "properties": [
+                {"name": "status", "type": {"primitive": "string"}},
+                {
+                    "name": "expirationDate",
+                    "optional": True,
+                    "type": {"primitive": "date"},
+                },
+            ],
+        }
+        result = self.generate(data)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        snippet = self.snippets("python")["AWS::S3::Bucket (full)"]
+        source = subprocess.check_output(
+            [
+                "node",
+                "-e",
+                "const {expandSnippet}=require(process.argv[1]); console.log(expandSnippet(JSON.parse(process.argv[2]).body));",
+                str(ROOT / "scripts/snippet-text.cjs"),
+                json.dumps(snippet),
+            ],
+            text=True,
+        )
+        dates = [
+            node
+            for node in ast.walk(ast.parse(source))
+            if isinstance(node, ast.Call)
+            and ast.unparse(node.func) == "datetime.datetime.fromisoformat"
+        ]
+        self.assertEqual(len(dates), 1)
+        # Execute the emitted expression with the consumer's actual minimum
+        # interpreter. CI's newest interpreter accepts formats that 3.10 rejects.
+        code = (
+            "import datetime, sys; assert sys.version_info[:2] == (3, 10); "
+            f"result = {ast.unparse(dates[0])}; "
+            "assert result == datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc)"
+        )
+        execution = subprocess.run(
+            [
+                "uv",
+                "run",
+                "--python",
+                "3.10",
+                "--no-project",
+                "--isolated",
+                "python",
+                "-c",
+                code,
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=90,
+        )
+        self.assertEqual(execution.returncode, 0, execution.stderr)
 
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ function git(args) {
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const tags = git(['tag', '--list', '--sort=-version:refname']).stdout.trim().split('\n');
 const latest = tags.find(tag => /^\d+\.\d+\.\d+$/.test(tag));
-const inputs = ['package.json', '.vscodeignore', 'README.md', 'images/cdk-snippets-extension-icon.png', 'snippets'];
+const inputs = ['package.json', '.vscodeignore', 'README.md', 'CHANGELOG.md', 'LICENSE', 'images/cdk-snippets-extension-icon.png', 'snippets'];
 const changed = !latest || git(['diff', '--quiet', latest, '--', ...inputs]).status === 1;
 fs.mkdirSync('artifacts', { recursive: true });
 if (!changed) {

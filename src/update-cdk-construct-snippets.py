@@ -119,7 +119,7 @@ class Renderer:
         if primitive == "any":
             return self.placeholder("{}")
         if primitive == "date":
-            value = self.placeholder("2020-01-01T00:00:00Z")
+            value = self.placeholder("2020-01-01T00:00:00+00:00")
             return (
                 f"new Date('{value}')"
                 if self.language == "typescript"

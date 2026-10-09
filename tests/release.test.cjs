@@ -28,6 +28,7 @@ test('unchanged content skips release; changed content bumps once and keeps meta
   fs.writeFileSync(packageFile, JSON.stringify({ version: '1.2.3', devDependencies: { 'aws-cdk-lib': '2.273.0' } }));
   fs.writeFileSync(path.join(directory, 'package-lock.json'), JSON.stringify({ version: '1.2.3', packages: { '': { version: '1.2.3' } } }));
   fs.writeFileSync(path.join(directory, 'CHANGELOG.md'), 'Changelog\n=========\n');
+  fs.writeFileSync(path.join(directory, 'LICENSE'), 'Original license terms');
   const snippetFile = path.join(directory, 'snippets/cdk-l1-constructs-typescript.json');
   fs.writeFileSync(snippetFile, JSON.stringify({ 'AWS::S3::Bucket': { body: ['original'] } }));
   command(directory, 'git', ['init', '-q']);
@@ -54,4 +55,14 @@ test('unchanged content skips release; changed content bumps once and keeps meta
   command(directory, 'git', ['tag', '1.2.4']);
   command(directory, process.execPath, [script]);
   assert.equal(JSON.parse(fs.readFileSync(packageFile)).version, '1.2.4');
+  for (const [filename, version] of [['LICENSE', '1.2.5'], ['CHANGELOG.md', '1.2.6']]) {
+    fs.appendFileSync(path.join(directory, filename), '\nUpdated published text\n');
+    command(directory, process.execPath, [script]);
+    assert.equal(JSON.parse(fs.readFileSync(packageFile)).version, version, `${filename}-only edits must publish a new version`);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(directory, 'artifacts/release.json'))).changed, true);
+    commit(directory);
+    command(directory, 'git', ['tag', version]);
+    command(directory, process.execPath, [script]);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(directory, 'artifacts/release.json'))).changed, false);
+  }
 });

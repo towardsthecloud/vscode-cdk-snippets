@@ -19,7 +19,7 @@ test('a tagged release recovers its saved bytes after draft creation or partial 
   fs.writeFileSync(path.join(saved, 'cdk-snippets.vsix.sha256'), crypto.createHash('sha256').update(packageBytes).digest('hex') + '  artifacts/cdk-snippets.vsix\n');
   fs.writeFileSync(path.join(saved, 'release-notes.md'), 'Release notes');
   fs.writeFileSync(path.join(saved, 'release.json'), JSON.stringify({ version: '1.2.4', changed: true }));
-  fs.writeFileSync(path.join(directory, 'package.json'), '{"version":"1.2.4"}');
+  fs.writeFileSync(path.join(directory, 'package.json'), '{"version":"1.2.3"}');
   fs.writeFileSync(path.join(remote, 'fail-upload-once'), '');
   // The GitHub CLI is the external service boundary. This fake retains remote
   // assets and fails mid-upload; the release CLI must recover that persisted state.
@@ -62,18 +62,29 @@ if (args[0] === 'release' && args[1] === 'list') {
 } else { console.error('Unexpected CLI request', args); process.exit(2); }
 `, { mode: 0o755 });
   const env = { ...process.env, PATH: bin + path.delimiter + process.env.PATH, FAKE_REMOTE: remote, FAKE_SAVED: saved };
-  function run(executable, args) {
-    return spawnSync(executable, args, { cwd: directory, env, encoding: 'utf8' });
+  function run(executable, args, extraEnv = {}) {
+    return spawnSync(executable, args, { cwd: directory, env: { ...env, ...extraEnv }, encoding: 'utf8' });
   }
-  function success(executable, args) {
-    const result = run(executable, args);
+  function success(executable, args, extraEnv) {
+    const result = run(executable, args, extraEnv);
     assert.equal(result.status, 0, result.stderr);
     return result.stdout.trim();
   }
   success('git', ['init', '-q']);
   success('git', ['add', 'package.json']);
+  success('git', ['-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'fixture']);
+  success('git', ['tag', '1.2.3']);
+  fs.writeFileSync(path.join(directory, 'package.json'), '{"version":"1.2.4"}');
+  success('git', ['add', 'package.json']);
   success('git', ['-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'chore: release 1.2.4\n\nRelease-Run: 42']);
   success('git', ['tag', '1.2.4']);
+  for (const tag of ['9.9.9', '1.2.3']) {
+    const metadata = path.join(remote, 'metadata.json');
+    fs.writeFileSync(metadata, JSON.stringify({ tagName: tag, isDraft: true }));
+    assert.equal(success(process.execPath, [script, 'pending']), '1.2.4', 'Automatic recovery must ignore untagged and unmarked manual drafts');
+    assert.equal(success(process.execPath, [script, 'pending'], { REQUESTED_TAG: tag }), tag, 'An explicitly requested draft remains selectable');
+    fs.unlinkSync(metadata);
+  }
   assert.equal(success(process.execPath, [script, 'pending']), '1.2.4');
   assert.notEqual(run(process.execPath, [script, 'recover', '1.2.4']).status, 0);
   assert.ok(fs.existsSync(path.join(remote, 'cdk-snippets.vsix')), 'The simulated interrupted upload persisted its first asset');
@@ -82,7 +93,8 @@ if (args[0] === 'release' && args[1] === 'list') {
   assert.deepEqual(fs.readFileSync(path.join(remote, 'cdk-snippets.vsix')), packageBytes);
   assert.ok(fs.existsSync(path.join(remote, 'cdk-snippets.vsix.sha256')));
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(directory, 'package.json'))), { version: '1.2.4' });
-  assert.equal(success('git', ['tag']), '1.2.4');
+  assert.equal(success('git', ['tag']), '1.2.3\n1.2.4');
+  assert.equal(success(process.execPath, [script, 'pending']), '1.2.4', 'Workflow-owned drafts remain resumable');
   success(process.execPath, [script, 'recover', '1.2.4']);
   fs.writeFileSync(path.join(remote, 'cdk-snippets.vsix'), 'unexpected replacement');
   const corrupted = run(process.execPath, [script, 'recover', '1.2.4']);

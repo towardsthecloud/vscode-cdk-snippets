@@ -2,7 +2,7 @@ name: Update and publish extension
 on:
   push:
     branches: [main]
-    paths: [snippets/**, package.json, .vscodeignore, README.md, images/cdk-snippets-extension-icon.png]
+    paths: [snippets/**, package.json, .vscodeignore, README.md, CHANGELOG.md, LICENSE, images/cdk-snippets-extension-icon.png]
   workflow_dispatch:
     inputs:
       release_tag:

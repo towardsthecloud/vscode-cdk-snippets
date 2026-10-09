@@ -9,7 +9,7 @@ const stableVersion = /^\d+\.\d+\.\d+$/;
 const assets = ['cdk-snippets.vsix', 'cdk-snippets.vsix.sha256'];
 const command = (executable, args) => execFileSync(executable, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const releases = () => JSON.parse(command('gh', ['release', 'list', '--limit', '1000', '--json', 'tagName,isDraft']));
-const recordedRun = tag => command('git', ['show', '-s', '--format=%B', tag]).match(/^Release-Run: (\d+)$/m)?.[1];
+const recordedRun = tag => command('git', ['show', '-s', '--format=%B', `refs/tags/${tag}`]).match(/^Release-Run: (\d+)$/m)?.[1];
 
 function verifyChecksum(directory) {
   const expected = fs.readFileSync(path.join(directory, assets[1]), 'utf8').match(/^([a-f0-9]{64})\s+\*?(?:artifacts\/)?cdk-snippets\.vsix\s*$/)?.[1];
@@ -19,11 +19,13 @@ function verifyChecksum(directory) {
 
 function pending() {
   const available = releases();
-  let tag = process.env.REQUESTED_TAG || available.find(release => release.isDraft && stableVersion.test(release.tagName))?.tagName;
+  const tags = command('git', ['tag', '--list', '--sort=-version:refname']).split('\n');
+  const managedTag = tag => tags.includes(tag) && recordedRun(tag);
+  let tag = process.env.REQUESTED_TAG || available.find(release => release.isDraft && stableVersion.test(release.tagName) && managedTag(release.tagName))?.tagName;
   if (!tag) {
-    const latest = command('git', ['tag', '--list', '--sort=-version:refname']).split('\n').find(value => stableVersion.test(value));
+    const latest = tags.find(value => stableVersion.test(value));
     // The commit marker distinguishes a failed new release from legacy tags.
-    if (latest && !available.some(release => release.tagName === latest) && recordedRun(latest)) tag = latest;
+    if (latest && !available.some(release => release.tagName === latest) && managedTag(latest)) tag = latest;
   }
   if (tag) assert.match(tag, stableVersion, 'Expected a stable release tag');
   if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `tag=${tag || ''}\n`);
