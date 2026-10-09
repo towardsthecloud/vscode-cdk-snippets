@@ -1,55 +1,159 @@
-name: Fetch CloudFormation resource specification and update this VSCode extension.
+name: Update and publish extension
 on:
+  push:
+    branches: [main]
+    paths: [snippets/**, package.json, .vscodeignore, README.md, CHANGELOG.md, LICENSE, images/cdk-snippets-extension-icon.png]
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing release tag to retry (leave empty to prepare an update)
+        required: false
+        type: string
   schedule:
-    - cron: "20 11 * * 5" # At 11:20 on Friday.
+    - cron: "20 11 * * 5"
+permissions:
+  contents: read
+concurrency:
+  group: publish-extension
+  cancel-in-progress: false
 jobs:
-  build:
+  prepare:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+      actions: read
+    outputs:
+      tag: ${{ steps.artifact.outputs.tag || steps.pending.outputs.tag }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
         with:
+          ref: main
           fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v5
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Resume an existing package before preparing another version
+        id: pending
+        env:
+          REQUESTED_TAG: ${{ inputs.release_tag }}
+        run: node scripts/release-artifact.cjs pending
+      - name: Recover missing draft assets from the original tested package
+        if: steps.pending.outputs.tag != ''
+        env:
+          RELEASE_TAG: ${{ steps.pending.outputs.tag }}
+        run: node scripts/release-artifact.cjs recover "$RELEASE_TAG"
+      - uses: ./.github/actions/setup
+        if: steps.pending.outputs.tag == ''
+      - name: Refresh the pinned CDK APIs in both languages
+        if: steps.pending.outputs.tag == ''
+        run: |
+          latest=$(npm view aws-cdk-lib version)
+          [[ "$latest" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit 1
+          npm install --save-dev --save-exact --ignore-scripts "aws-cdk-lib@$latest"
+          python3 - "$latest" <<'PY'
+          import pathlib
+          import re
+          import sys
+          path = pathlib.Path("src/requirements.in")
+          path.write_text(re.sub(r"aws-cdk-lib==[^\n]+", "aws-cdk-lib==" + sys.argv[1], path.read_text()))
+          PY
+          uv pip compile src/requirements.in --output-file src/requirements.txt
+          uv pip sync --python .venv/bin/python src/requirements.txt
+          npm run generate
+      - name: Validate generated code and editor behavior
+        if: steps.pending.outputs.tag == ''
+        run: |
+          npm test
+          xvfb-run -a npm run test:vscode
+      - name: Prepare release only when published content changes
+        if: steps.pending.outputs.tag == ''
+        id: release
+        run: |
+          npm run release:prepare
+          echo "changed=$(node -p 'require("./artifacts/release.json").changed')" >> "$GITHUB_OUTPUT"
+          echo "version=$(node -p 'require("./artifacts/release.json").version || ""')" >> "$GITHUB_OUTPUT"
+      - name: Package and verify the final release
+        if: steps.release.outputs.changed == 'true'
+        run: |
+          npm run package
+          npm run test:package
+          sha256sum artifacts/cdk-snippets.vsix > artifacts/cdk-snippets.vsix.sha256
+      - name: Retain the verified package before advancing the release tag
+        if: steps.release.outputs.changed == 'true'
+        uses: actions/upload-artifact@v7.0.2
         with:
-          node-version: "20"
-      - name: Install Python
+          name: release-${{ steps.release.outputs.version }}
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            artifacts/cdk-snippets.vsix
+            artifacts/cdk-snippets.vsix.sha256
+            artifacts/release-notes.md
+            artifacts/release.json
+      - name: Save the tested package for publication and retries
+        if: steps.release.outputs.changed == 'true'
+        id: artifact
         run: |
-          set -x -e
-          sudo apt install python3-setuptools
-          python3 -m pip install --upgrade pip && pip3 install -r src/requirements.txt
-      - name: Check for update and create snippets if needed
+          version=$(node -p 'require("./package.json").version')
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json package-lock.json src/requirements.in src/requirements.txt snippets CHANGELOG.md
+          git commit -m "chore: release $version" -m "Release-Run: $GITHUB_RUN_ID"
+          git tag "$version"
+          git push --atomic origin HEAD:main "refs/tags/$version"
+          node scripts/release-artifact.cjs recover "$version"
+          echo "tag=$version" >> "$GITHUB_OUTPUT"
+  publish:
+    needs: prepare
+    if: needs.prepare.outputs.tag != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # Draft release assets require push access.
+    strategy:
+      fail-fast: false
+      matrix:
+        registry: [marketplace, openvsx]
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ${{ needs.prepare.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ needs.prepare.outputs.tag }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Verify the saved release package
         run: |
-          echo "checking for update"
-          python3 src/update-cdk-construct-snippets.py
-      - name: Commit changes to Github
-        run: |
-          set -x -e
-          # Configure git
-          git config --global user.name 'Github Actions'
-          git config --global user.email 'danny@towardsthecloud.com'
-
-          # Update version
-          npm version minor --force --no-git-tag-version
-          package_version=$(cat package.json|grep 'version":'|sed 's/[",]//g'|awk '{print $2}')
-          cfn_release_rss_summary=$(python3 src/feed.py --summary-only)
-          git commit -am "$cfn_release_rss_summary"
-          git tag $package_version
-          gitchangelog|tee "CHANGELOG.md"
-          git commit -am "Changelog version: $package_version"
-          git push
-          git push origin --tags
+          gh release download "$RELEASE_TAG" --dir artifacts --pattern 'cdk-snippets.vsix*'
+          sha256sum --check artifacts/cdk-snippets.vsix.sha256
+          npm run test:package
       - name: Publish to Visual Studio Marketplace
-        uses: HaaLeo/publish-vscode-extension@v1
-        id: publishToVSCE
-        with:
-          pat: ${{ secrets.VSCE_TOKEN }}
-          registryUrl: https://marketplace.visualstudio.com
-      - name: Publish to Open VSX Registry
-        uses: HaaLeo/publish-vscode-extension@v1
-        with:
-          pat: ${{ secrets.OPEN_VSX_TOKEN }}
-          extensionFile: ${{ steps.publishToVSCE.outputs.vsixPath }}
+        if: matrix.registry == 'marketplace'
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
+        run: npm exec --no -- vsce publish --packagePath artifacts/cdk-snippets.vsix --skip-duplicate
+      - name: Publish to Open VSX
+        if: matrix.registry == 'openvsx'
+        env:
+          OVSX_PAT: ${{ secrets.OPEN_VSX_TOKEN }}
+        run: npm exec --no -- ovsx publish --packagePath artifacts/cdk-snippets.vsix --skip-duplicate
+  finalize:
+    needs: [prepare, publish]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ${{ needs.prepare.outputs.tag }}
+    steps:
+      - run: gh release edit "$RELEASE_TAG" --draft=false

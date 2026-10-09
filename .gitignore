@@ -1,2 +1,7 @@
 *.vsix
 .mypy_cache
+.venv/
+node_modules/
+__pycache__/
+.vscode-test/
+artifacts/

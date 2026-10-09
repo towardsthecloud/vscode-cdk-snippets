@@ -25,15 +25,18 @@ This extension adds L1 Construct snippets from AWS CDK in Visual Studio Code.
 > ### Here's what's included:
 >
 > **1. We Provision a Secure [AWS CDK Landing Zone](https://towardsthecloud.com/services/aws-cdk-landing-zone) That Accelerates Compliance**
+>
 > - Multi-account architecture with security controls and compliance guardrails from day one
 > - Scores 100% on the [CIS AWS Foundations Benchmark](https://docs.aws.amazon.com/securityhub/latest/userguide/cis-aws-foundations-benchmark.html) and 96% on [AWS Foundational Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/fsbp-standard.html)
 > - Those benchmarks map straight to **SOC 2**, **HIPAA**, and **PCI-DSS** controls, cutting months from your compliance timeline
 >
 > **2. We Monitor Proactively to Stop Cost Waste and Security Drift**
+>
 > - Quarterly cost reviews catch unattached volumes, oversized instances, and orphaned resources before they compound. AWS spend drops 20-30% on average, with [outliers hitting 60+%](https://towardsthecloud.com/services/aws-cost-optimization#case-study)
 > - Continuous security monitoring across all accounts catches misconfigurations immediately. You get alerts while issues are still fixable, not after they're breaches
 >
 > **3. We Provide Senior AWS Expertise That Speeds Up Delivery**
+>
 > - Your developers get production-ready IaC templates for common patterns: multi-AZ applications, event-driven architectures, secure data pipelines. What takes weeks of research ships in hours
 > - Architecture guidance on VPC design, IAM policies, disaster recovery, and observability from engineers who've solved these problems at enterprise scale
 >
@@ -45,17 +48,19 @@ This extension adds L1 Construct snippets from AWS CDK in Visual Studio Code.
 
 ---
 
-## New in version 2!
+## Snippet modes
 
-- Added support for L1 constructs snippets in AWS CDK Python! Open up a CDK Python project and type `l1` to trigger the L1 construct autocomplete.
+Use `l1-s3-bucket` for a compact template containing required properties. Append `-full`, for example `l1-s3-bucket-full`, to include optional properties. Existing prefixes now use the compact mode.
+
+Full snippets expand up to 4 levels and 400 lines. Deeper structures become editable placeholders. Both languages target the same CDK version, pinned in `package.json`; update older project SDKs before using newly introduced constructs or properties.
 
 ## Features
 
-1. **Comprehensive Support**: Seamlessly integrates all CloudFormation resources as L1 constructs within CDK, ensuring you have access to the latest AWS offerings.
+1. **SDK-backed Coverage**: Includes the L1 constructs available in the pinned AWS CDK release, with property names taken from the TypeScript and Python SDKs.
 2. **Effortless Autocomplete**: Activate autocomplete with `l1-<cloudformation-resource>` to streamline your coding process.
-3. **Weekly Updates**: Construct snippets are refreshed weekly in line with AWS's updates to their [CloudFormation Resource Specification](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html), keeping you on the cutting edge.
+3. **Weekly Updates**: The update workflow checks for new [AWS CDK releases](https://github.com/aws/aws-cdk/releases), refreshes both languages together, and publishes only when extension content changes.
 4. **Placeholder Support**: Navigate efficiently through resource properties using the `Tab` key, thanks to built-in placeholder functionality.
-5. **Required Property Highlighting**: Easily identify mandatory properties, highlighted with a `// required` comment for your convenience.
+5. **Required Property Highlighting**: Required SDK properties carry a `// Required` comment in TypeScript or `# Required` in Python.
 6. **Documentation at Your Fingertips**: Access the corresponding CDK resource documentation directly from the autocomplete prompt, enriching your development experience.
 
 ## Usage
@@ -64,6 +69,22 @@ This extension adds L1 Construct snippets from AWS CDK in Visual Studio Code.
 2. Open your CDK project (TypeScript or Python).
 3. Add L1 constructs using their short prefix (e.g. `l1-s3-bucket` for `s3.CfnBucket`).
 
+Insert snippets inside a CDK construct or stack, where `this` (TypeScript) or `self` (Python) is available. Add the imports used by the snippet:
+
+```typescript
+import * as cdk from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
+```
+
+```python
+import aws_cdk as cdk
+from aws_cdk import aws_s3
+```
+
+Other services use the corresponding namespace, such as `aws_lambda` in Python and `lambda` in TypeScript. Python full snippets containing dates also need `import datetime`.
+
+These are editable templates. Replace placeholder values, choose the settings your resource requires, and remove unused optional settings before synthesizing. Required SDK arguments do not express every CloudFormation constraint, such as mutually exclusive properties.
+
 Example:
 
 ![CDK Construct Snippets example](https://raw.githubusercontent.com/dannysteenman/vscode-cdk-snippets/main/images/cdk-snippet-tutorial.gif)
@@ -71,11 +92,13 @@ Example:
 > **Note:** Once you start typing a prefix (explained in step 3), the corresponding snippet shows up in the dropdown menu. If this doesn't happen automatically, press `ctrl + space` to invoke IntelliSense and search for the prefix of the resource type that you want to add (as listed in step 3).
 
 ---
+
 ## AWS CDK Examples
 
 [Explore our AWS CDK Examples repository](https://github.com/towardsthecloud/aws-cdk-examples) - a rich collection of TypeScript-based solutions that bring your cloud architecture to life. Crafted by a seasoned AWS professional.
 
 ---
+
 ## Support
 
 If you have a feature request or an issue, please let me know on [Github](https://github.com/towardsthecloud/vscode-cdk-snippets/issues)
