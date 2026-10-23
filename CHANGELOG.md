@@ -2,6 +2,10 @@ Changelog
 =========
 
 
+2.115.2 (2026-10-23)
+--------------------
+- Snippets target AWS CDK 2.274.0 in TypeScript and Python. Existing prefixes insert required properties; append `-full` for bounded optional-property examples. Placeholder values must be edited for your resource.
+
 2.115.1 (2026-10-09)
 --------------------
 - Snippets target AWS CDK 2.273.0 in TypeScript and Python. Existing prefixes insert required properties; append `-full` for bounded optional-property examples. Placeholder values must be edited for your resource.
