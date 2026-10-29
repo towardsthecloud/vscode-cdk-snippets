@@ -111,6 +111,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
+      id-token: write
       contents: write # Draft release assets require push access.
     strategy:
       fail-fast: false
@@ -137,9 +138,7 @@ jobs:
           npm run test:package
       - name: Publish to Visual Studio Marketplace
         if: matrix.registry == 'marketplace'
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
-        run: npm exec --no -- vsce publish --packagePath artifacts/cdk-snippets.vsix --skip-duplicate
+        run: npx --yes @vscode/vsce@4.1.0 publish --oidc --packagePath artifacts/cdk-snippets.vsix --skip-duplicate
       - name: Publish to Open VSX
         if: matrix.registry == 'openvsx'
         env:
